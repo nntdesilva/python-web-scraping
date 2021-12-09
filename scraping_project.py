@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from random import choice
+from time import sleep
 
 
 def fetch_quotes():
@@ -19,6 +20,7 @@ def fetch_quotes():
             arr.append(quote_data)
         try:
             next_page_url = soup.select('.next')[0].select('a')[0]['href']
+            sleep(1)
             response = requests.get(website_url + next_page_url).text
             soup = BeautifulSoup(response, 'html.parser')
         except IndexError:
@@ -27,6 +29,7 @@ def fetch_quotes():
 
 
 arr = fetch_quotes()
+
 total_guesses = 0
 random_quote = None
 res = 'y'
