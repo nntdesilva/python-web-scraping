@@ -27,12 +27,31 @@ def fetch_quotes():
 
 
 arr = fetch_quotes()
-total_guesses = 4
+total_guesses = 0
+random_quote = None
 res = 'y'
-random_quote = choice(arr)
-print("Here's a quote:\n\n")
-print(random_quote[0])
-print("\n")
+
+
+def reset():
+    global total_guesses
+    global random_quote
+    total_guesses = 4
+    random_quote = choice(arr)
+    print("Here's a quote:\n\n")
+    print(random_quote[0])
+    print("\n")
+
+
+def prompt_user():
+    global res
+    res = input("would you like to play again (y/n) ?")
+    if res == 'y':
+        print("Great! Here we go again...")
+        reset()
+
+
+reset()
+
 while total_guesses >= 0 and res == 'y':
     answer = input(f"Who said this? Guesses remaining: {total_guesses}.")
     if answer != random_quote[1] and total_guesses == 4:
@@ -53,22 +72,10 @@ while total_guesses >= 0 and res == 'y':
     elif answer != random_quote[1] and total_guesses == 1:
         total_guesses -= 1
         print(f"Sorry, you've run out of guesses. The answer was {random_quote[1]}")
-        res = input("would you like to play again (y/n) ?")
-        if res == 'y':
-            print("Great! Here we go again...")
-            total_guesses = 4
-            random_quote = choice(arr)
-            print("Here's a quote:\n\n")
-            print(random_quote[0])
-            print("\n")
+        prompt_user()
     else:
         print("You guessed correctly! Congratulations!")
         res = input("would you like to play again (y/n) ?")
-        if res == 'y':
-            total_guesses = 4
-            random_quote = choice(arr)
-            print("Here's a quote:\n\n")
-            print(random_quote[0])
-            print("\n")
+        prompt_user()
 
 print("Thank you for playing! Bye!")
